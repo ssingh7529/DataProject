@@ -1,0 +1,82 @@
+<!doctype>
+<html>
+<style>
+	 body {
+	background-color: blueviolet
+	}
+	.card{
+		width:300px;
+
+		padding:10px;
+		margin:10px;
+		display:inline-block;
+		border-radius:10px;
+		box-shadow:black 5px 5px 5px;
+	}
+	h1{
+		font-family:"Times New Roman";
+		text-shadow: red 3px 3px 3px;
+	}
+	p{
+		font-size:15pt;
+		font-family:"Times New Roman";
+	}
+	
+	
+	
+</style>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/2.3.0/mustache.min.js"></script>
+<script type="text/template" id="template">
+	
+	<div class="card">
+		<h1> incident type:{{incident_type}} </h1>
+		<p> Borough : {{borough}} </p>
+		<p> (latitude : {{latitude}} ,longitude: {{longitude}} )</p>
+		<marquee> location:{{ location }} </marquee>
+	</div>
+</script>
+<script>
+	var data;
+	function search(){				
+		$.getJSON("https://data.cityofnewyork.us/resource/a6b3-u8ax.json",function(results){
+			data = results;
+		})
+	}
+	
+	function incidents(){
+		var build = "";
+		var output = document.getElementById("output")
+		var incident_type = document.getElementById("incident type")
+		var temp = document.getElementById("template").innerHTML;
+			
+	}
+try {
+for(var index = 0; index < data.length; index++){
+			if(data[index].incident_type.toLowerCase().indexOf(incidents.value.toLowerCase()) != -1){
+				build += Mustache.render(temp,data[index]);
+			}
+		}	
+
+
+}
+catch(err) {
+    //document.getElementById("incident type").innerHTML = err.message;
+
+} output.innerHTML = "<h1>Incidents: "  + "</h1><br>" + build;
+</script>
+
+</body>
+</html>
+
+
+<body onload= "search()">
+	<div align = "center">
+	<input type= "text" id="incidents" placeholder="Enter incidents">
+	<button onclick= "incidents()"> Display </button>
+	<div id="output">
+	</div>
+ </body>
+</html>
